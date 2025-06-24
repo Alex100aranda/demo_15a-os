@@ -114,15 +114,24 @@
     <h3>Comparte Fotos</h3>
     <p>Sube tus fotos del evento al álbum</p>
 
-    <button class="photo-btn upload-btn">
+    <input type="file" id="fileInput" accept="image/*" style="display:none" />
+
+    <button class="photo-btn upload-btn" onclick="document.getElementById('fileInput').click()">
       <i class="fas fa-upload"></i> Subir fotos
     </button>
 
-    <button class="photo-btn view-btn">
+    <button class="photo-btn view-btn" onclick="mostrarGaleria()">
       <i class="fas fa-images"></i> Ver fotos subidas
     </button>
   </div>
 </section>
+
+<!-- Galería -->
+<section id="galeria" class="photo-gallery" style="display:none;">
+  <h3>Fotos del Evento</h3>
+  <div class="grid" id="gallery-grid"></div>
+</section>
+
 
 
 <!-- Sección Sobre Mí -->
@@ -214,6 +223,48 @@
 <script>
   AOS.init();
 </script>
+
+<!-- Sección Final: Te esperamos -->
+<script>
+  const fileInput = document.getElementById('fileInput');
+  const galleryGrid = document.getElementById('gallery-grid');
+  const galeria = document.getElementById('galeria');
+
+  const CLOUD_NAME = 'ddhnvhse7'; // ← Reemplaza con el tuyo
+  const UPLOAD_PRESET = 'invitacion_XV'; // ← El nombre que diste al preset
+
+  let imagenes = []; // Arreglo local de URLs (puedes luego conectarlo a Google Sheets)
+
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', UPLOAD_PRESET);
+
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await res.json();
+    alert('¡Foto subida correctamente!');
+    imagenes.push(data.secure_url);
+  });
+
+  function mostrarGaleria() {
+    galeria.style.display = 'block';
+    galleryGrid.innerHTML = '';
+    imagenes.forEach(url => {
+      const img = document.createElement('img');
+      img.src = url;
+      img.classList.add('foto-subida');
+      galleryGrid.appendChild(img);
+    });
+  }
+</script>
+
 
   <script src="script.js"></script>
 </body>

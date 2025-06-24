@@ -367,6 +367,40 @@ body, html {
   background-color: rgb(226, 147, 160);
 }
 
+/* Galería de fotos */
+.photo-gallery {
+  padding: 2rem 1rem;
+  background-color: #fff;
+  text-align: center;
+}
+
+.photo-gallery h3 {
+  font-size: 1.8rem;
+  font-family: 'Dancing Script', cursive;
+  margin-bottom: 1.5rem;
+  color: #444;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.foto-subida {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.foto-subida:hover {
+  transform: scale(1.03);
+}
+
 
 
 /* Sección Nosotros */
